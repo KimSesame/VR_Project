@@ -9,8 +9,9 @@ public class ReelHandle : XRBaseInteractable
     [SerializeField] float twistSensitivity = 1.5f;
 
     private IXRSelectInteractor interactor = null;
-    private Vector3 currentDir;
+    private Vector3 initialDir;
     private float currentAngle = 0f;
+    private float lastAngle = 0f;
 
     protected override void OnEnable()
     {
@@ -29,9 +30,10 @@ public class ReelHandle : XRBaseInteractable
     public void StartGrab(SelectEnterEventArgs args)
     {
         interactor = args.interactorObject;
-        currentDir = (transform.position - reelCenter.position).normalized;
+        initialDir = (transform.position - reelCenter.position).normalized;
 
-        currentAngle = Vector3.SignedAngle(reelCenter.forward, currentDir, reelCenter.up);
+        currentAngle = Vector3.SignedAngle(reelCenter.forward, initialDir, reelCenter.up);
+        lastAngle = currentAngle;
     }
 
     public void EndGrab(SelectExitEventArgs args)
@@ -57,14 +59,20 @@ public class ReelHandle : XRBaseInteractable
         if (interactor == null) return;
 
         var interactorTransform = interactor.GetAttachTransform(this);
-        Vector3 dir = (reelCenter.position - interactorTransform.position).normalized;
-        float angleDelta = Vector3.SignedAngle(currentDir, dir, reelCenter.up);
+        Vector3 currentDir = (reelCenter.position - interactorTransform.position).normalized;
+        float newAngle = Vector3.SignedAngle(initialDir, currentDir, reelCenter.up);
+        float angleDelta = newAngle - lastAngle;
 
-        // Rotate reel
-        currentAngle += angleDelta * twistSensitivity;
-        transform.RotateAround(reelCenter.position, reelCenter.up, currentAngle);
+        // No angleDelta, no reel rotation
+        if (Mathf.Abs(angleDelta) < 5f)
+            return;
 
         // Update
-        currentDir = dir;
+        lastAngle = newAngle;
+        currentAngle += angleDelta * twistSensitivity;
+        initialDir = currentDir;
+
+        // Rotate reel
+        transform.RotateAround(reelCenter.position, reelCenter.up, currentAngle);
     }
 }
