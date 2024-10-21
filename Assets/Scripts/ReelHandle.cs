@@ -5,6 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ReelHandle : XRBaseInteractable
 {
+    [SerializeField] FishingRodController fishingRodController;
     [SerializeField] Transform reelCenter;
     [SerializeField] float twistSensitivity = 1.5f;
 
@@ -74,5 +75,12 @@ public class ReelHandle : XRBaseInteractable
 
         // Rotate reel
         transform.RotateAround(reelCenter.position, reelCenter.up, currentAngle);
+
+        // Bait fish
+        Fish baitedFish = fishingRodController.currentFish;
+        if (baitedFish != null)
+        {
+            baitedFish.EatBait(Mathf.Abs(angleDelta) * 0.01f);
+        }
     }
 }
