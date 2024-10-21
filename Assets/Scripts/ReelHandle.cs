@@ -9,7 +9,7 @@ public class ReelHandle : XRBaseInteractable
     [SerializeField] Transform reelCenter;
     [SerializeField] float twistSensitivity = 1.5f;
 
-    private IXRSelectInteractor interactor = null;
+    private XRBaseControllerInteractor interactor = null;
     private Vector3 initialDir;
     private float currentAngle = 0f;
     private float lastAngle = 0f;
@@ -30,7 +30,7 @@ public class ReelHandle : XRBaseInteractable
 
     public void StartGrab(SelectEnterEventArgs args)
     {
-        interactor = args.interactorObject;
+        interactor = (XRBaseControllerInteractor)args.interactorObject;
         initialDir = (transform.position - reelCenter.position).normalized;
 
         currentAngle = Vector3.SignedAngle(reelCenter.forward, initialDir, reelCenter.up);
@@ -78,8 +78,9 @@ public class ReelHandle : XRBaseInteractable
 
         // Bait fish
         Fish baitedFish = fishingRodController.currentFish;
-        if (baitedFish != null)
+        if (baitedFish != null && baitedFish.isBitten)
         {
+            interactor.SendHapticImpulse(0.3f, 0.01f);
             baitedFish.EatBait(Mathf.Abs(angleDelta) * 0.01f);
         }
     }
