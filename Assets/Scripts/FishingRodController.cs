@@ -28,7 +28,7 @@ public class FishingRodController : MonoBehaviour
     [SerializeField] AudioClip[] sfxs;
     public enum SfxType
     {
-        Swing0, Swing1, Splash, FishSplash
+        Swing0, Swing1, Splash, FishSplash, FishCaught
     }
 
     private XRBaseControllerInteractor interactor;
@@ -55,6 +55,12 @@ public class FishingRodController : MonoBehaviour
         audioSource.Play();
 
         splashCoroutine = StartCoroutine(SplashRoutine());
+
+        if (currentFish != null)
+        {
+            Destroy(currentFish.gameObject);
+            currentFish = null;
+        }
 
         currentFish = Instantiate(fishPrefabs[fishType], SpawnPoint.position, fishPrefabs[fishType].transform.rotation);
         currentFish.OnCaught += CatchFish;
@@ -87,6 +93,10 @@ public class FishingRodController : MonoBehaviour
         currentFish.GetComponent<Rigidbody>().velocity = -power * endPoint.right;
         currentFish.gameObject.SetActive(true);
         currentFish = null;
+
+        // Feedback
+        audioSource.clip = sfxs[(int)SfxType.FishCaught];
+        audioSource.Play();
 
         if (interactor != null)
             interactor.SendHapticImpulse(0.5f, 0.5f);

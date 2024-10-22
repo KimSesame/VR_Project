@@ -75,6 +75,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nigiri Tamagoyaki Yellow
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0d5fb5e5b9057149a39c8571e23d043, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0d5fb5e5b9057149a39c8571e23d043, type: 3}
 --- !u!1 &53174275853511962 stripped
@@ -129,7 +133,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 3
   m_DistanceCalculationMode: 1
   m_SelectMode: 0
   m_FocusMode: 1
