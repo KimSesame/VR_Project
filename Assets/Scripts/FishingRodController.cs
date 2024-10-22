@@ -84,7 +84,7 @@ public class FishingRodController : MonoBehaviour
         currentFish.OnCaught -= CatchFish;
         currentFish.OnBitten -= BittenFeedback;
         currentFish.transform.position = endPoint.position;
-        currentFish.GetComponent<Rigidbody>().velocity = -power * (endPoint.forward + endPoint.right).normalized;
+        currentFish.GetComponent<Rigidbody>().velocity = -power * endPoint.right;
         currentFish.gameObject.SetActive(true);
         currentFish = null;
 

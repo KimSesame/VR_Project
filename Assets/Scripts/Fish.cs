@@ -10,6 +10,7 @@ public class Fish : MonoBehaviour
     public Action OnCaught;
 
     public bool isBitten = false;
+    public int type;
 
     [SerializeField] float hp;
 

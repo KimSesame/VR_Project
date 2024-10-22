@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7512154600394580197}
   - component: {fileID: 1078529068827798071}
   - component: {fileID: 6676193942762476928}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FishV1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBitten: 0
+  type: 0
   hp: 50
 --- !u!54 &1078529068827798071
 Rigidbody:
@@ -241,7 +242,7 @@ MonoBehaviour:
   m_SnapToColliderVolume: 1
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
-  m_MovementType: 2
+  m_MovementType: 0
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
